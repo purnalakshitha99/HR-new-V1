@@ -11,4 +11,6 @@ public interface DependencyService {
     DependencyResponse add(Long employeeId, DependencyRequest dependencyRequest)throws EmployeeNotFoundException;
 
     List<DependencyResponse> getAll();
+
+    DependencyResponse getSpecificDependencies(Long employeeId,Long dependenciesId)throws EmployeeNotFoundException;
 }

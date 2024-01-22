@@ -6,6 +6,7 @@ import lk.purna.HRnewV1.controller.repository.DependencyRepository;
 import lk.purna.HRnewV1.controller.repository.EmployeeRepository;
 import lk.purna.HRnewV1.controller.request.DependencyRequest;
 import lk.purna.HRnewV1.controller.response.DependencyResponse;
+import lk.purna.HRnewV1.controller.response.EmployeeResponse;
 import lk.purna.HRnewV1.exception.EmployeeNotFoundException;
 import lk.purna.HRnewV1.service.DependencyService;
 import lombok.AllArgsConstructor;
@@ -22,14 +23,14 @@ public class DependencyServiceImpl implements DependencyService {
     private final DependencyRepository dependencyRepository;
     private final EmployeeRepository employeeRepository;
 
-    public DependencyResponse add(Long employeeId,DependencyRequest dependencyRequest)throws EmployeeNotFoundException {
+    public DependencyResponse add(Long employeeId, DependencyRequest dependencyRequest) throws EmployeeNotFoundException {
 
-        Optional<Employee>employeeOptional = employeeRepository.findById(employeeId);
+        Optional<Employee> employeeOptional = employeeRepository.findById(employeeId);
 
 
-        if (!employeeOptional.isPresent()){
-            throw  new EmployeeNotFoundException("Not found that Id : "+employeeId);
-        }else {
+        if (!employeeOptional.isPresent()) {
+            throw new EmployeeNotFoundException("Not found that Id : " + employeeId);
+        } else {
 
             Employee employee = employeeOptional.get();
 
@@ -48,10 +49,38 @@ public class DependencyServiceImpl implements DependencyService {
     }
 
 
-    public List<DependencyResponse> getAll(){
+    public List<DependencyResponse> getAll() {
         List<Dependencies> dependenciesList = dependencyRepository.findAll();
 
         return dependenciesList.stream().map(dependencies -> DependencyResponse.builder().id(dependencies.getId()).relationship(dependencies.getRelationship()).build()).toList();
+    }
+
+    public DependencyResponse getSpecificDependencies(Long employeeId, Long dependenciesId) throws EmployeeNotFoundException {
+        Optional<Employee> employeeOptional = employeeRepository.findById(employeeId);
+
+
+        if (!employeeOptional.isPresent()) {
+
+            throw new EmployeeNotFoundException("That employee not found in the database : " + employeeId);
+
+        }
+
+        Employee employee = employeeOptional.get();
+        List<Dependencies> dependenciesList = employee.getDependenciesList();
+
+        Dependencies getToSpecific = dependenciesList.stream().filter(dependencies -> dependencies.getId().equals(dependenciesId)).findFirst().orElse(null);
+
+        if (getToSpecific == null) {
+
+            throw new EmployeeNotFoundException("Dependencies id not found");
+
+        }
+        DependencyResponse dependencyResponse = DependencyResponse.builder().id(getToSpecific.getId()).relationship(getToSpecific.getRelationship()).build();
+
+        return dependencyResponse;
+
+
+
     }
 
 
