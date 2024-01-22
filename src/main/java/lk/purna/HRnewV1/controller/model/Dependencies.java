@@ -3,19 +3,17 @@ package lk.purna.HRnewV1.controller.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.List;
 
 @Entity
-@Table(name = "employees")
 @Data
-public class Employee {
-
+@Table(name = "dependencies")
+public class Dependencies {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+    private String relationship;
 
-    @OneToMany(mappedBy = "employee")
-    private List<Dependencies>dependenciesList;
+    @ManyToOne
+    private Employee employee;
 }

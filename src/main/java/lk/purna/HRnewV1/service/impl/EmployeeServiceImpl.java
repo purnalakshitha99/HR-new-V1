@@ -6,6 +6,7 @@ import lk.purna.HRnewV1.controller.request.EmployeeRequest;
 import lk.purna.HRnewV1.controller.response.EmpResponseBuilder;
 import lk.purna.HRnewV1.controller.response.EmployeeResponse;
 import lk.purna.HRnewV1.controller.response.MessageResponse;
+import lk.purna.HRnewV1.exception.EmployeeNotFoundException;
 import lk.purna.HRnewV1.service.EmployeeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -40,28 +41,34 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     }
 
-    public EmployeeResponse get(Long employeeId){
+    public EmployeeResponse get(Long employeeId)throws EmployeeNotFoundException {
         Optional<Employee>employeeOptional = employeeRepository.findById(employeeId);
         EmployeeResponse employeeResponse = new EmployeeResponse();
 
-        if (employeeOptional.isPresent()){
+        if (!employeeOptional.isPresent()){
 
-            Employee employee = employeeOptional.get();
+            throw new EmployeeNotFoundException("That Employee Not in a Db");
 
-            employeeResponse.setId(employee.getId());
-            employeeResponse.setName(employee.getName());
-
-            return employeeResponse;
         }
-return null;
+        Employee employee = employeeOptional.get();
+
+        employeeResponse.setId(employee.getId());
+        employeeResponse.setName(employee.getName());
+
+        return employeeResponse;
+
     }
 
-    public EmployeeResponse update(Long employeeId,EmployeeRequest employeeRequest){
+    public EmployeeResponse update(Long employeeId,EmployeeRequest employeeRequest)throws EmployeeNotFoundException{
         Optional<Employee>employeeOptional = employeeRepository.findById(employeeId);
         EmployeeResponse employeeResponse = new EmployeeResponse();
 
-        if (employeeOptional.isPresent()){
+        if (!employeeOptional.isPresent()){
 
+
+            throw new EmployeeNotFoundException("That Employee Not Found");
+
+        }else {
             Employee employee = employeeOptional.get();
 
             employee.setName(employeeRequest.getName());
@@ -71,32 +78,33 @@ return null;
             employeeResponse.setId(employee.getId());
             employeeResponse.setName(employee.getName());
 
-            return employeeResponse;
-        }else {
-            System.out.println("not in id");
+
         }
 
-        return null;
+
+
+        return employeeResponse;
     }
 
 
-    public MessageResponse delete(Long employeeId){
+    public MessageResponse delete(Long employeeId)throws EmployeeNotFoundException{
 
         Optional<Employee>employeeOptional = employeeRepository.findById(employeeId);
         MessageResponse messageResponse = new MessageResponse();
 
-        if (employeeOptional.isPresent()){
+        if (!employeeOptional.isPresent()){
 
-            Employee employee = employeeOptional.get();
-
-            employeeRepository.delete(employee);
-
-            messageResponse.setMessage("Delete by employee : "+employeeId);
-
-            return messageResponse;
+            throw new EmployeeNotFoundException("employee no in a DB : "+employeeId);
         }
 
-        return null;
+        Employee employee = employeeOptional.get();
+
+        employeeRepository.delete(employee);
+
+        messageResponse.setMessage("Delete by employee : "+employeeId);
+
+        return messageResponse;
+
     }
 
 

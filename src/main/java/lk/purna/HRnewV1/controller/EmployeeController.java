@@ -5,6 +5,7 @@ import lk.purna.HRnewV1.controller.request.EmployeeRequest;
 import lk.purna.HRnewV1.controller.response.EmpResponseBuilder;
 import lk.purna.HRnewV1.controller.response.EmployeeResponse;
 import lk.purna.HRnewV1.controller.response.MessageResponse;
+import lk.purna.HRnewV1.exception.EmployeeNotFoundException;
 import lk.purna.HRnewV1.service.EmployeeService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -26,21 +27,21 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees/{employee_id}")
-    public EmployeeResponse get(@PathVariable("employee_id")Long employeeId){
+    public EmployeeResponse get(@PathVariable("employee_id")Long employeeId)throws EmployeeNotFoundException {
         System.out.println("get employee");
 
         return employeeService.get(employeeId);
     }
 
     @PutMapping("/employees/{employee_id}")
-    public EmployeeResponse update(@PathVariable("employee_id")Long employeeId,@RequestBody EmployeeRequest employeeRequest){
+    public EmployeeResponse update(@PathVariable("employee_id")Long employeeId,@RequestBody EmployeeRequest employeeRequest) throws EmployeeNotFoundException{
         System.out.println("update employee ");
 
         return employeeService.update(employeeId,employeeRequest);
     }
 
     @DeleteMapping("/employees/{employee_id}")
-    public MessageResponse delete(@PathVariable("employee_id")Long employeeId){
+    public MessageResponse delete(@PathVariable("employee_id")Long employeeId) throws EmployeeNotFoundException{
         System.out.println("delete employee");
 
         return employeeService.delete(employeeId);
@@ -52,6 +53,9 @@ public class EmployeeController {
 
         return employeeService.getAll();
     }
+
+
+
 
 
 
