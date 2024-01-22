@@ -1,5 +1,6 @@
 package lk.purna.HRnewV1.service;
 
+import lk.purna.HRnewV1.controller.model.Dependencies;
 import lk.purna.HRnewV1.controller.request.DependencyRequest;
 import lk.purna.HRnewV1.controller.response.DependencyResponse;
 import lk.purna.HRnewV1.exception.EmployeeNotFoundException;
@@ -13,4 +14,8 @@ public interface DependencyService {
     List<DependencyResponse> getAll();
 
     DependencyResponse getSpecificDependencies(Long employeeId,Long dependenciesId)throws EmployeeNotFoundException;
+
+    DependencyResponse updateSpecificDependencies(Long employeeId,Long dependenciesId,DependencyRequest dependencyRequest)throws EmployeeNotFoundException;
+
+    List<DependencyResponse> getSpecificDependenciesList(Long employeeId)throws EmployeeNotFoundException;
 }
