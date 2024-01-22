@@ -4,8 +4,8 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data
-
-public class EmployeeResponse {
+@Builder
+public class EmpResponseBuilder {
 
     private Long id;
     private String name;

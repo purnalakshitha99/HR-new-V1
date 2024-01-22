@@ -2,10 +2,14 @@ package lk.purna.HRnewV1.controller;
 
 
 import lk.purna.HRnewV1.controller.request.EmployeeRequest;
+import lk.purna.HRnewV1.controller.response.EmpResponseBuilder;
 import lk.purna.HRnewV1.controller.response.EmployeeResponse;
+import lk.purna.HRnewV1.controller.response.MessageResponse;
 import lk.purna.HRnewV1.service.EmployeeService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -33,6 +37,20 @@ public class EmployeeController {
         System.out.println("update employee ");
 
         return employeeService.update(employeeId,employeeRequest);
+    }
+
+    @DeleteMapping("/employees/{employee_id}")
+    public MessageResponse delete(@PathVariable("employee_id")Long employeeId){
+        System.out.println("delete employee");
+
+        return employeeService.delete(employeeId);
+    }
+
+    @GetMapping("/employees")
+    public List<EmpResponseBuilder> getAll(){
+        System.out.println("get all employee");
+
+        return employeeService.getAll();
     }
 
 

@@ -3,13 +3,16 @@ package lk.purna.HRnewV1.service.impl;
 import lk.purna.HRnewV1.controller.model.Employee;
 import lk.purna.HRnewV1.controller.repository.EmployeeRepository;
 import lk.purna.HRnewV1.controller.request.EmployeeRequest;
+import lk.purna.HRnewV1.controller.response.EmpResponseBuilder;
 import lk.purna.HRnewV1.controller.response.EmployeeResponse;
+import lk.purna.HRnewV1.controller.response.MessageResponse;
 import lk.purna.HRnewV1.service.EmployeeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.crypto.spec.OAEPParameterSpec;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -77,6 +80,34 @@ return null;
     }
 
 
-    
+    public MessageResponse delete(Long employeeId){
+
+        Optional<Employee>employeeOptional = employeeRepository.findById(employeeId);
+        MessageResponse messageResponse = new MessageResponse();
+
+        if (employeeOptional.isPresent()){
+
+            Employee employee = employeeOptional.get();
+
+            employeeRepository.delete(employee);
+
+            messageResponse.setMessage("Delete by employee : "+employeeId);
+
+            return messageResponse;
+        }
+
+        return null;
+    }
+
+
+    public List<EmpResponseBuilder> getAll(){
+
+        List<Employee> employeeList = employeeRepository.findAll();
+
+        return employeeList.stream()
+                .map(employee -> EmpResponseBuilder.builder().id(employee.getId()).name(employee.getName())
+                        .build()).toList();
+    }
+
 
 }

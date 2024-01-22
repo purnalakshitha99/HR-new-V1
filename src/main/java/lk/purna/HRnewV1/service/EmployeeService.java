@@ -1,7 +1,11 @@
 package lk.purna.HRnewV1.service;
 
 import lk.purna.HRnewV1.controller.request.EmployeeRequest;
+import lk.purna.HRnewV1.controller.response.EmpResponseBuilder;
 import lk.purna.HRnewV1.controller.response.EmployeeResponse;
+import lk.purna.HRnewV1.controller.response.MessageResponse;
+
+import java.util.List;
 
 public interface EmployeeService {
 
@@ -10,4 +14,8 @@ public interface EmployeeService {
     EmployeeResponse get(Long employeeId);
 
     EmployeeResponse update(Long employeeId,EmployeeRequest employeeRequest);
+
+    MessageResponse delete(Long employeeId);
+
+    List<EmpResponseBuilder> getAll();
 }
