@@ -8,6 +8,7 @@ import lk.purna.HRnewV1.controller.request.DependencyRequest;
 import lk.purna.HRnewV1.controller.request.EmployeeRequest;
 import lk.purna.HRnewV1.controller.response.DependencyResponse;
 import lk.purna.HRnewV1.controller.response.EmployeeResponse;
+import lk.purna.HRnewV1.exception.DependenciesNotFoundException;
 import lk.purna.HRnewV1.exception.EmployeeNotFoundException;
 import lk.purna.HRnewV1.service.DependencyService;
 import lombok.AllArgsConstructor;
@@ -128,6 +129,33 @@ public class DependencyServiceImpl implements DependencyService {
         dependencyRepository.save(updateToDependent);
 
         DependencyResponse dependencyResponse = DependencyResponse.builder().id(updateToDependent.getId()).relationship(updateToDependent.getRelationship()).build();
+        return dependencyResponse;
+    }
+
+    public DependencyResponse deleteSpecificDependencies(Long employeeId,Long dependenciesId)throws EmployeeNotFoundException,DependenciesNotFoundException{
+        Optional<Employee>employeeOptional = employeeRepository.findById(employeeId);
+
+        if (!employeeOptional.isPresent()){
+            throw new EmployeeNotFoundException("That employee not having a system");
+        }
+
+        Employee employee = employeeOptional.get();
+        List<Dependencies>dependenciesList = employee.getDependenciesList();
+
+        Dependencies deleteToDependencies = dependenciesList.stream().filter(dependencies -> dependencies.getId().equals(dependenciesId)).findFirst().orElse(null);
+
+        if (deleteToDependencies == null){
+            throw new DependenciesNotFoundException("That dependencies not found in a database");
+        }
+
+        dependenciesList.remove(deleteToDependencies);
+        employeeRepository.save(employee);
+
+        DependencyResponse dependencyResponse = DependencyResponse.builder()
+                .id(deleteToDependencies.getId())
+                .relationship(deleteToDependencies.getRelationship())
+                .build();
+
         return dependencyResponse;
     }
 

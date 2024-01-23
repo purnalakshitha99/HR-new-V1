@@ -1,13 +1,16 @@
 package lk.purna.HRnewV1.controller;
 
+import lk.purna.HRnewV1.controller.model.Employee;
 import lk.purna.HRnewV1.controller.request.DependencyRequest;
 import lk.purna.HRnewV1.controller.response.DependencyResponse;
+import lk.purna.HRnewV1.exception.DependenciesNotFoundException;
 import lk.purna.HRnewV1.exception.EmployeeNotFoundException;
 import lk.purna.HRnewV1.service.DependencyService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
@@ -51,5 +54,12 @@ public class DependencyController {
 
         return dependencyService.getSpecificDependenciesList(employeeId);
 
+    }
+
+    @DeleteMapping("/employees/{employee_id}/dependencies/{dependencies_id}")
+    public DependencyResponse deleteSpecific(@PathVariable("employee_id") Long employeeId,@PathVariable("dependencies_id")Long dependenciesId)throws EmployeeNotFoundException, DependenciesNotFoundException {
+        System.out.println("delete specific dependencies id");
+
+        return dependencyService.deleteSpecificDependencies(employeeId,dependenciesId);
     }
 }

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class AppControllerAdviser {
 
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-    @ExceptionHandler({EmployeeNotFoundException.class})
+    @ExceptionHandler({EmployeeNotFoundException.class,DependenciesNotFoundException.class})
     public CustomErrorResponse handleNotFoundException(Exception exception){
 
 
