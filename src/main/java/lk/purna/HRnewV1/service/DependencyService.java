@@ -14,11 +14,11 @@ public interface DependencyService {
 
     List<DependencyResponse> getAll();
 
-    DependencyResponse getSpecificDependencies(Long employeeId,Long dependenciesId)throws EmployeeNotFoundException;
+    DependencyResponse getSpecificDependencies(Long employeeId,Long dependenciesId)throws EmployeeNotFoundException,DependenciesNotFoundException;
 
-    DependencyResponse updateSpecificDependencies(Long employeeId,Long dependenciesId,DependencyRequest dependencyRequest)throws EmployeeNotFoundException;
+    DependencyResponse updateSpecificDependencies(Long employeeId,Long dependenciesId,DependencyRequest dependencyRequest)throws EmployeeNotFoundException,DependenciesNotFoundException;
 
-    List<DependencyResponse> getSpecificDependenciesList(Long employeeId)throws EmployeeNotFoundException;
+    List<DependencyResponse> getSpecificDependenciesList(Long employeeId)throws EmployeeNotFoundException,DependenciesNotFoundException;
 
     DependencyResponse deleteSpecificDependencies(Long employeeId,Long dependenciesId)throws EmployeeNotFoundException, DependenciesNotFoundException;
 }

@@ -34,14 +34,14 @@ public class DependencyController {
     }
 
     @GetMapping("employees/{employee_id}/dependencies/{dependencies_id}")
-    public DependencyResponse getSpecificDependencies(@PathVariable("employee_id")Long employeeId,@PathVariable("dependencies_id")Long dependenciesId)throws EmployeeNotFoundException{
+    public DependencyResponse getSpecificDependencies(@PathVariable("employee_id")Long employeeId,@PathVariable("dependencies_id")Long dependenciesId)throws EmployeeNotFoundException,DependenciesNotFoundException{
         System.out.println("get specific dependencies");
 
         return dependencyService.getSpecificDependencies(employeeId,dependenciesId);
     }
 
     @PutMapping("/employees/{employee_id}/dependencies/{dependencies_id}")
-    public DependencyResponse updateSpecificDependencies(@PathVariable("employee_id")Long employeeId,@PathVariable("dependencies_id")Long dependenciesId,@RequestBody DependencyRequest dependencyRequest)throws EmployeeNotFoundException{
+    public DependencyResponse updateSpecificDependencies(@PathVariable("employee_id")Long employeeId,@PathVariable("dependencies_id")Long dependenciesId,@RequestBody DependencyRequest dependencyRequest)throws EmployeeNotFoundException,DependenciesNotFoundException{
         System.out.println("dependencies update specific");
 
         return dependencyService.updateSpecificDependencies(employeeId,dependenciesId,dependencyRequest);
@@ -49,7 +49,7 @@ public class DependencyController {
     }
 
     @GetMapping("/employees/{employee_id}/dependencies")
-    public List<DependencyResponse> getSpecificDependenciesList(@PathVariable("employee_id")Long employeeId)throws EmployeeNotFoundException{
+    public List<DependencyResponse> getSpecificDependenciesList(@PathVariable("employee_id")Long employeeId)throws EmployeeNotFoundException,DependenciesNotFoundException{
         System.out.println("get specific employee dependent list");
 
         return dependencyService.getSpecificDependenciesList(employeeId);

@@ -59,7 +59,7 @@ public class DependencyServiceImpl implements DependencyService {
         return dependenciesList.stream().map(dependencies -> DependencyResponse.builder().id(dependencies.getId()).relationship(dependencies.getRelationship()).build()).toList();
     }
 
-    public DependencyResponse getSpecificDependencies(Long employeeId, Long dependenciesId) throws EmployeeNotFoundException {
+    public DependencyResponse getSpecificDependencies(Long employeeId, Long dependenciesId) throws EmployeeNotFoundException,DependenciesNotFoundException{
         Optional<Employee> employeeOptional = employeeRepository.findById(employeeId);
 
 
@@ -76,7 +76,7 @@ public class DependencyServiceImpl implements DependencyService {
 
         if (getToSpecific == null) {
 
-            throw new EmployeeNotFoundException("Dependencies id not found");
+            throw new DependenciesNotFoundException("Dependencies id not found");
 
         }
         DependencyResponse dependencyResponse = DependencyResponse.builder().id(getToSpecific.getId()).relationship(getToSpecific.getRelationship()).build();
@@ -85,7 +85,7 @@ public class DependencyServiceImpl implements DependencyService {
 
     }
 
-    public List<DependencyResponse> getSpecificDependenciesList(Long employeeId)throws EmployeeNotFoundException{
+    public List<DependencyResponse> getSpecificDependenciesList(Long employeeId)throws EmployeeNotFoundException,DependenciesNotFoundException{
         Optional<Employee>employeeOptional = employeeRepository.findById(employeeId);
 
         List<DependencyResponse> dependencyResponseList = new ArrayList<>();
@@ -98,7 +98,7 @@ public class DependencyServiceImpl implements DependencyService {
         List<Dependencies> dependenciesList = employee.getDependenciesList();
 
         if (dependenciesList == null){
-            throw new EmployeeNotFoundException("that dependent list not in the db");
+            throw new DependenciesNotFoundException("that dependent list not in the db");
         }
 
        dependencyResponseList = dependenciesList.stream().map(dependencies -> DependencyResponse.builder().id(dependencies.getId()).relationship(dependencies.getRelationship()).build()).toList();
@@ -108,7 +108,7 @@ public class DependencyServiceImpl implements DependencyService {
 
     }
 
-    public DependencyResponse updateSpecificDependencies(Long employeeId,Long dependenciesId,DependencyRequest dependencyRequest)throws EmployeeNotFoundException{
+    public DependencyResponse updateSpecificDependencies(Long employeeId,Long dependenciesId,DependencyRequest dependencyRequest)throws EmployeeNotFoundException,DependenciesNotFoundException{
 
         Optional<Employee> employeeOptional = employeeRepository.findById(employeeId);
 
@@ -122,7 +122,7 @@ public class DependencyServiceImpl implements DependencyService {
         Dependencies updateToDependent = dependenciesList.stream().filter(dependencies -> dependencies.getId().equals(dependenciesId)).findFirst().orElse(null);
 
         if (updateToDependent == null){
-            throw new EmployeeNotFoundException("Dependencies list not found");
+            throw new DependenciesNotFoundException("Dependencies list not found");
         }
 
         updateToDependent.setRelationship(dependencyRequest.getRelationship());
@@ -148,8 +148,8 @@ public class DependencyServiceImpl implements DependencyService {
             throw new DependenciesNotFoundException("That dependencies not found in a database");
         }
 
-        dependenciesList.remove(deleteToDependencies);
-        employeeRepository.save(employee);
+        dependenciesList.remove(deleteToDependencies); //employee ekka sambanda siyalu dewal remove kr damai
+        employeeRepository.save(employee);////remove krt passe emp repo eka update wenna
 
         DependencyResponse dependencyResponse = DependencyResponse.builder()
                 .id(deleteToDependencies.getId())
