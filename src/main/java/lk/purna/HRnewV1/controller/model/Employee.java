@@ -18,4 +18,7 @@ public class Employee {
 
     @OneToMany(mappedBy = "employee")
     private List<Dependencies>dependenciesList;
+
+    @OneToMany(mappedBy = "employee")
+    private List<Insurance>insuranceList;
 }
