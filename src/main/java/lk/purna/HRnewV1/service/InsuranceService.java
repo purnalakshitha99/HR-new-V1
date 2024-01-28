@@ -6,5 +6,5 @@ import lk.purna.HRnewV1.exception.EmployeeNotFoundException;
 
 public interface InsuranceService {
 
-    InsuranceResponseBuilder add(Long employeeId, InsuranceRequest insuranceRequest)throws EmployeeNotFoundException;
+    InsuranceResponseBuilder add(InsuranceRequest insuranceRequest);
 }

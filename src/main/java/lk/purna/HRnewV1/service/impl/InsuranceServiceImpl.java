@@ -22,33 +22,19 @@ public class InsuranceServiceImpl implements InsuranceService {
     private final EmployeeRepository employeeRepository;
     private final InsuranceRepository insuranceRepository;
 
-    public InsuranceResponseBuilder add(Long employeeId,InsuranceRequest insuranceRequest)throws EmployeeNotFoundException {
 
-        Optional<Employee>employeeOptional = employeeRepository.findById(employeeId) ;
 
-        if (!employeeOptional.isPresent()){
-            throw new EmployeeNotFoundException("That Employee not in the this system : "+employeeId);
-        }
 
-        Employee employee = employeeOptional.get();
+    @Override
+    public InsuranceResponseBuilder add(InsuranceRequest insuranceRequest) {
 
         Insurance insurance = new Insurance();
-        insurance.setCompany(insuranceRequest.getCompany());
-        insurance.setType(insuranceRequest.getType());
 
-        insurance.setEmployee(employee);
+        insurance.setType(insuranceRequest.getType());
+        insurance.setCompany(insuranceRequest.getCompany());
 
         insuranceRepository.save(insurance);
 
-        InsuranceResponseBuilder insuranceResponseBuilder = InsuranceResponseBuilder
-                .builder()
-                .id(insurance.getId())
-                .company(insurance.getCompany())
-                .type(insurance.getType())
-                .build();
-
-
-        return insuranceResponseBuilder;
-
+        return InsuranceResponseBuilder.builder().id(insurance.getId()).type(insurance.getType()).company(insurance.getCompany()).build();
     }
 }
