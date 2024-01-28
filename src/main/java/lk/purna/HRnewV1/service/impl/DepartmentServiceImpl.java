@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.hibernate.engine.jdbc.dialect.spi.DialectFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -40,6 +41,12 @@ public class DepartmentServiceImpl implements DepartmentService {
 
         return DepartmentResponseBuilder.builder().id(department.getId()).name(department.getName()).build();
 
+    }
+
+    public List<DepartmentResponseBuilder> getAll(){
+        List<Department>departmentList = departmentRepository.findAll();
+
+        return departmentList.stream().map(department -> DepartmentResponseBuilder.builder().id(department.getId()).name(department.getName()).build()).toList();
     }
 
 }

@@ -7,6 +7,8 @@ import lk.purna.HRnewV1.service.DepartmentService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @AllArgsConstructor
 public class DepartmentController {
@@ -25,6 +27,13 @@ public class DepartmentController {
         System.out.println("get specific Department");
 
         return departmentService.getSpecific(departmentId);
+    }
+
+    @GetMapping("/departments")
+    public List<DepartmentResponseBuilder> getAll(){
+        System.out.println("get All dep");
+
+        return departmentService.getAll();
     }
 
 
